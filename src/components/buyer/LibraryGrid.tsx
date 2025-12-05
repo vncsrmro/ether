@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { Download, Play, Calendar } from 'lucide-react'
 import { Product } from '@/types'
 import { Button } from '@/components/ui'
+import { useUIStore } from '@/store'
 
 interface LibraryItemProps {
     product: Product & { purchasedAt: string }
@@ -13,6 +14,7 @@ interface LibraryItemProps {
 }
 
 export function LibraryItem({ product, index }: LibraryItemProps) {
+    const { openModal } = useUIStore()
     const [isHovered, setIsHovered] = React.useState(false)
 
     // Use preview video if available, otherwise just use image
@@ -59,11 +61,14 @@ export function LibraryItem({ product, index }: LibraryItemProps) {
                 )}
 
                 <div className="absolute inset-0 p-4 flex flex-col justify-end bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Link href={`/product/${product.id}`}>
-                        <Button size="sm" variant="secondary" className="w-full mb-2">
-                            Ver Detalhes
-                        </Button>
-                    </Link>
+                    <Button
+                        size="sm"
+                        variant="secondary"
+                        className="w-full mb-2"
+                        onClick={() => openModal('VIDEO_PREVIEW', product)}
+                    >
+                        Ver Detalhes
+                    </Button>
                     <Button size="sm" className="w-full">
                         <Download className="w-4 h-4 mr-2" />
                         Baixar

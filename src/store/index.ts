@@ -58,6 +58,11 @@ interface UIStore {
     setSearchOpen: (open: boolean) => void
     setLocale: (locale: 'pt-BR' | 'en') => void
     toggleCart: () => void
+    // Global Modal Manager
+    activeModal: string | null
+    modalData: any
+    openModal: (modalName: string, data?: any) => void
+    closeModal: () => void
 }
 
 export const useUIStore = create<UIStore>()(
@@ -67,15 +72,18 @@ export const useUIStore = create<UIStore>()(
             isMobileMenuOpen: false,
             isSearchOpen: false,
             locale: 'pt-BR',
+            activeModal: null,
+            modalData: null,
             setCartOpen: (open) => set({ isCartOpen: open }),
             setMobileMenuOpen: (open) => set({ isMobileMenuOpen: open }),
             setSearchOpen: (open) => set({ isSearchOpen: open }),
             setLocale: (locale) => {
                 set({ locale })
-                // Set cookie for server-side rendering
                 document.cookie = `locale=${locale};path=/;max-age=31536000`
             },
             toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
+            openModal: (modalName, data) => set({ activeModal: modalName, modalData: data }),
+            closeModal: () => set({ activeModal: null, modalData: null })
         }),
         {
             name: 'ether-ui',

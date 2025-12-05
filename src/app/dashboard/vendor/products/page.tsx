@@ -2,12 +2,32 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Edit, MoreVertical, Eye } from 'lucide-react'
+import { Plus, Edit, MoreVertical, Eye, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui'
 import { mockVendorProducts } from '@/lib/mock-vendor-data'
+import { useUIStore } from '@/store'
 
 export default function VendorProductsPage() {
+    const { openModal } = useUIStore()
+
+    const handleDelete = (product: any) => {
+        openModal('CONFIRM', {
+            title: 'Excluir Produto',
+            description: `Tem certeza que deseja excluir "${product.title}"? Esta ação não pode ser desfeita.`,
+            variant: 'danger',
+            confirmText: 'Excluir Definitivamente',
+            onConfirm: () => {
+                console.log('Deleting:', product.id)
+                // Call API here
+            },
+            details: [
+                { label: 'Status', value: product.status },
+                { label: 'Vendas Totais', value: product.sales.toString() }
+            ]
+        })
+    }
+
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
@@ -39,7 +59,10 @@ export default function VendorProductsPage() {
                             <tr key={product.id} className="hover:bg-white/5 transition-colors">
                                 <td className="p-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-lg bg-black overflow-hidden flex-shrink-0">
+                                        <div
+                                            className="w-12 h-12 rounded-lg bg-black overflow-hidden flex-shrink-0 cursor-pointer hover:ring-2 ring-cyan-500/50 transition-all"
+                                            onClick={() => openModal('VIDEO_PREVIEW', product)}
+                                        >
                                             <img src={product.assets?.[0]?.thumb} className="w-full h-full object-cover" />
                                         </div>
                                         <div>
@@ -57,11 +80,24 @@ export default function VendorProductsPage() {
                                 <td className="p-4 text-white/80">{product.sales}</td>
                                 <td className="p-4 text-right">
                                     <div className="flex justify-end gap-2">
+                                        <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="h-8 w-8 p-0"
+                                            onClick={() => openModal('VIDEO_PREVIEW', product)}
+                                        >
+                                            <Eye className="w-4 h-4" />
+                                        </Button>
                                         <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                                             <Edit className="w-4 h-4" />
                                         </Button>
-                                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                                            <Eye className="w-4 h-4" />
+                                        <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="h-8 w-8 p-0 text-red-400 hover:text-red-500 hover:bg-red-500/10"
+                                            onClick={() => handleDelete(product)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </td>
