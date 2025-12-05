@@ -143,7 +143,11 @@ export function ProductCard({ product, locale = 'pt-BR' }: ProductCardProps) {
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => openModal('VIDEO_PREVIEW', product)}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                openModal('VIDEO_PREVIEW', product)
+                            }}
                         >
                             <Eye className="w-4 h-4 text-white/70" />
                         </motion.button>
@@ -151,7 +155,11 @@ export function ProductCard({ product, locale = 'pt-BR' }: ProductCardProps) {
                             className="p-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-600 transition-all hover:shadow-[0_0_20px_rgba(0,240,255,0.3)]"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => addItem(product)}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                addItem(product)
+                            }}
                         >
                             <ShoppingCart className="w-4 h-4 text-white" />
                         </motion.button>

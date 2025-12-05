@@ -2,10 +2,20 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { mockWishlist } from '@/lib/mock-user-data'
+import { useWishlistStore } from '@/store'
 import { ProductCard } from '@/components/ui'
+import { Button } from '@/components/ui'
+import Link from 'next/link'
 
 export default function BuyerWishlistPage() {
+    const { items } = useWishlistStore()
+
+    // Hydration safe check (zustand persist)
+    const [mounted, setMounted] = React.useState(false)
+    React.useEffect(() => setMounted(true), [])
+
+    if (!mounted) return null
+
     return (
         <div className="space-y-8">
             <div>
@@ -14,7 +24,7 @@ export default function BuyerWishlistPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {mockWishlist.map((product, idx) => (
+                {items.map((product, idx) => (
                     <motion.div
                         key={product.id}
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -26,9 +36,12 @@ export default function BuyerWishlistPage() {
                 ))}
             </div>
 
-            {mockWishlist.length === 0 && (
-                <div className="text-center py-24">
-                    <p className="text-white/40 text-lg">Sua lista de desejos está vazia.</p>
+            {items.length === 0 && (
+                <div className="text-center py-24 rounded-2xl border border-dashed border-white/10 bg-white/5">
+                    <p className="text-white/40 text-lg mb-4">Sua lista de desejos está vazia.</p>
+                    <Link href="/explore">
+                        <Button variant="outline">Explorar Marketplace</Button>
+                    </Link>
                 </div>
             )}
         </div>
