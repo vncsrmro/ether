@@ -113,14 +113,16 @@ export function Header() {
                         </Button>
 
                         {/* User */}
-                        <Button
-                            variant="secondary"
-                            size="sm"
-                            className="hidden sm:flex"
-                        >
-                            <User className="w-4 h-4" />
-                            <span>{t('auth.login')}</span>
-                        </Button>
+                        <Link href="/login">
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                className="hidden sm:flex"
+                            >
+                                <User className="w-4 h-4" />
+                                <span>{t('auth.login')}</span>
+                            </Button>
+                        </Link>
 
                         {/* Mobile Menu Toggle */}
                         <Button
@@ -159,9 +161,11 @@ export function Header() {
                                     </Link>
                                 ))}
                                 <div className="pt-4 px-4">
-                                    <Button variant="default" className="w-full">
-                                        {t('auth.login')}
-                                    </Button>
+                                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                                        <Button variant="default" className="w-full">
+                                            {t('auth.login')}
+                                        </Button>
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>

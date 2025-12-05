@@ -7,7 +7,8 @@ import { useAuthUIStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import { Button, Input } from '@/components/ui'
 import { Header, Footer } from '@/components/layout'
-import { ShoppingBag, Store, ArrowRight, Video } from 'lucide-react'
+import { ShoppingBag, Store, ArrowRight, Video, AlertCircle } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 export default function RegisterPage() {
@@ -15,18 +16,63 @@ export default function RegisterPage() {
     const { setAuthMode, setUserRole } = useAuthUIStore()
     const [accountType, setAccountType] = React.useState<'buyer' | 'vendor'>('buyer')
     const [isLoading, setIsLoading] = React.useState(false)
+    const [error, setError] = React.useState<string | null>(null)
 
-    const handleRegister = (e: React.FormEvent) => {
+    // Form State
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const [brandName, setBrandName] = React.useState('')
+    const [name, setName] = React.useState('')
+
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
+        setError(null)
 
-        // Simulate API call
-        setTimeout(() => {
-            // Set role based on selection
-            setUserRole(accountType)
+        const supabase = createClient()
+
+        try {
+            // 1. Sign Up
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: name
+                    }
+                }
+            })
+
+            if (authError) throw authError
+
+            if (authData.user) {
+                // 2. Create Profile row
+                // Note: If you have a Trigger to create profile on auth.user created, this might fail or be redundant.
+                // Assuming manual creation or upsert for safety.
+                const { error: profileError } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: authData.user.id,
+                        email: email,
+                        role: accountType,
+                        brand_name: accountType === 'vendor' ? brandName : null
+                    })
+
+                if (profileError) throw profileError
+
+                // 3. Update Local State
+                setUserRole(accountType)
+
+                // 4. Redirect
+                router.push(accountType === 'vendor' ? '/dashboard/vendor/overview' : '/dashboard/buyer/library')
+            }
+
+        } catch (err: any) {
+            console.error('Registration Error:', err)
+            setError(err.message || 'Erro ao criar conta. Tente novamente.')
+        } finally {
             setIsLoading(false)
-            router.push(accountType === 'vendor' ? '/dashboard/vendor/overview' : '/dashboard/buyer/library')
-        }, 1500)
+        }
     }
 
     return (
@@ -43,6 +89,13 @@ export default function RegisterPage() {
                             <h1 className="text-3xl font-bold text-white mb-2">Crie sua conta</h1>
                             <p className="text-white/60">Junte-se à comunidade ETHER hoje.</p>
                         </div>
+
+                        {error && (
+                            <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-100 text-sm">
+                                <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                                {error}
+                            </div>
+                        )}
 
                         {/* Account Type Selector */}
                         <div className="grid grid-cols-2 gap-4 mb-8">
@@ -73,16 +126,44 @@ export default function RegisterPage() {
                         </div>
 
                         <form onSubmit={handleRegister} className="space-y-4">
-                            <Input placeholder="Nome Completo" type="text" required className="bg-white/5" />
-                            <Input placeholder="E-mail" type="email" required className="bg-white/5" />
-                            <Input placeholder="Senha" type="password" required className="bg-white/5" />
+                            <Input
+                                placeholder="Nome Completo"
+                                type="text"
+                                required
+                                className="bg-white/5"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            <Input
+                                placeholder="E-mail"
+                                type="email"
+                                required
+                                className="bg-white/5"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <Input
+                                placeholder="Senha"
+                                type="password"
+                                required
+                                className="bg-white/5"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
                             {accountType === 'vendor' && (
                                 <motion.div
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
                                 >
-                                    <Input placeholder="Nome da Marca / Artista" type="text" required className="bg-white/5 border-violet-500/30 focus:border-violet-500" />
+                                    <Input
+                                        placeholder="Nome da Marca / Artista"
+                                        type="text"
+                                        required
+                                        className="bg-white/5 border-violet-500/30 focus:border-violet-500"
+                                        value={brandName}
+                                        onChange={(e) => setBrandName(e.target.value)}
+                                    />
                                     <p className="text-xs text-white/40 mt-2 px-1">
                                         O nome que aparecerá no seu perfil de vendedor.
                                     </p>

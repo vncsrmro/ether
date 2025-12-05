@@ -7,32 +7,67 @@ import { useAuthUIStore } from '@/store'
 import { useRouter } from 'next/navigation'
 import { Button, Input } from '@/components/ui'
 import { Header } from '@/components/layout'
-import { ArrowRight, ShieldCheck } from 'lucide-react'
+import { ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 export default function LoginPage() {
     const router = useRouter()
     const { setUserRole } = useAuthUIStore()
     const [isLoading, setIsLoading] = React.useState(false)
-    const [email, setEmail] = React.useState('')
+    const [error, setError] = React.useState<string | null>(null)
 
-    const handleLogin = (e: React.FormEvent) => {
+    // Form State
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsLoading(true)
+        setError(null)
 
-        // MOCK LOGIN LOGIC BASED ON EMAIL
-        setTimeout(() => {
-            if (email.includes('admin')) {
-                setUserRole('admin')
-                router.push('/dashboard/admin/overview')
-            } else if (email.includes('vendor') || email.includes('sell')) {
-                setUserRole('vendor')
-                router.push('/dashboard/vendor/overview')
+        // Initialize Supabase
+        const supabase = createClient()
+
+        try {
+            const { data, error: authError } = await supabase.auth.signInWithPassword({
+                email,
+                password
+            })
+
+            if (authError) throw authError
+
+            // 1. Fetch User Profile to get Role
+            const { data: profile, error: profileError } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', data.user.id)
+                .single()
+
+            // Default role if profile missing (fallback)
+            let role = 'buyer'
+            if (profile?.role) {
+                role = profile.role
             } else {
-                setUserRole('buyer')
-                router.push('/dashboard/buyer/library')
+                // Basic role inference for MVP/Mock users if they don't have profile row yet
+                if (email.includes('admin')) role = 'admin'
+                else if (email.includes('vendor')) role = 'vendor'
             }
-        }, 1500)
+
+            // 2. Update Store
+            setUserRole(role as any)
+
+            // 3. Redirect
+            if (role === 'admin') router.push('/dashboard/admin/overview')
+            else if (role === 'vendor') router.push('/dashboard/vendor/overview')
+            else router.push('/dashboard/buyer/library')
+
+        } catch (err: any) {
+            console.error('Login Error:', err)
+            setError(err.message || 'Falha ao realizar login. Verifique suas credenciais.')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -50,6 +85,13 @@ export default function LoginPage() {
                             <p className="text-white/60">Entre para acessar sua conta.</p>
                         </div>
 
+                        {error && (
+                            <div className="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-3 text-red-100 text-sm">
+                                <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                                {error}
+                            </div>
+                        )}
+
                         <form onSubmit={handleLogin} className="space-y-4">
                             <Input
                                 placeholder="E-mail"
@@ -59,7 +101,14 @@ export default function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <Input placeholder="Senha" type="password" required className="bg-white/5" />
+                            <Input
+                                placeholder="Senha"
+                                type="password"
+                                required
+                                className="bg-white/5"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
                             <div className="text-right">
                                 <Link href="/forgot-password" className="text-xs text-white/50 hover:text-white transition-colors">
@@ -88,12 +137,11 @@ export default function LoginPage() {
                         <div className="mt-8 p-4 bg-white/5 rounded-xl border border-white/5 text-xs text-white/40">
                             <p className="font-bold text-white/60 mb-2 flex items-center gap-2">
                                 <ShieldCheck className="w-3 h-3" />
-                                Dicas de Teste (MVP):
+                                Modo Integrado Supabase:
                             </p>
                             <ul className="space-y-1 list-disc list-inside">
-                                <li>Use email com "admin" para painel Admin</li>
-                                <li>Use email com "vendor" para painel Vendedor</li>
-                                <li>Qualquer outro para painel Comprador</li>
+                                <li>Login real via Supabase Auth</li>
+                                <li>Verifica tabela 'profiles' para role</li>
                             </ul>
                         </div>
 

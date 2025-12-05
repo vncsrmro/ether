@@ -57,8 +57,8 @@ export function DashboardSidebar() {
             { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard/admin/overview' },
             { icon: CheckCircle, label: 'Aprovações', href: '/dashboard/admin/approvals' },
             { icon: Users, label: 'Usuários', href: '/dashboard/admin/users' },
-            { icon: Package, label: 'Produtos', href: '/dashboard/admin/products' },
             { icon: DollarSign, label: 'Financeiro', href: '/dashboard/admin/finance' },
+            { icon: Settings, label: 'Configurações', href: '/dashboard/settings' },
         ]
     }
 
