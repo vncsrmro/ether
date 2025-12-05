@@ -1,5 +1,5 @@
 // User & Auth Types
-export type UserRole = 'admin' | 'vendor' | 'user'
+export type UserRole = 'admin' | 'vendor' | 'buyer'
 
 export interface Profile {
     id: string
