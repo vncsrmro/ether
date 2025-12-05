@@ -83,17 +83,28 @@ export const useUIStore = create<UIStore>()(
     )
 )
 
-// Auth Store (client-side only for UI state)
+// Auth Store (client-side only for UI state - MOCKED FOR MVP)
 interface AuthUIStore {
     isAuthModalOpen: boolean
     authMode: 'login' | 'register'
+    userRole: 'guest' | 'buyer' | 'vendor' | 'admin' // Added for Dashboard Logic
     setAuthModalOpen: (open: boolean) => void
     setAuthMode: (mode: 'login' | 'register') => void
+    setUserRole: (role: 'guest' | 'buyer' | 'vendor' | 'admin') => void
 }
 
-export const useAuthUIStore = create<AuthUIStore>((set) => ({
-    isAuthModalOpen: false,
-    authMode: 'login',
-    setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
-    setAuthMode: (mode) => set({ authMode: mode }),
-}))
+export const useAuthUIStore = create<AuthUIStore>()(
+    persist(
+        (set) => ({
+            isAuthModalOpen: false,
+            authMode: 'login',
+            userRole: 'guest',
+            setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
+            setAuthMode: (mode) => set({ authMode: mode }),
+            setUserRole: (role) => set({ userRole: role }),
+        }),
+        {
+            name: 'ether-auth-mock', // Persist to keep login state during dev
+        }
+    )
+)

@@ -38,6 +38,10 @@ export interface Asset {
     s3_key_original: string
     s3_key_preview: string
     s3_key_thumb: string
+    // Frontend helpers (presigned URLs)
+    url?: string
+    preview_url?: string
+    thumb?: string
     created_at: string
 }
 
