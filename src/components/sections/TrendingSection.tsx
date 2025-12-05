@@ -233,14 +233,10 @@ export function TrendingSection() {
             className="relative py-24 sm:py-32 overflow-hidden"
         >
             {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent" />
-            <motion.div
-                style={{ y: backgroundY }}
-                className="absolute inset-0 opacity-30"
-            >
-                <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[150px]" />
-                <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-violet-500/20 rounded-full blur-[150px]" />
-            </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/5 to-transparent pointer-events-none" />
+
+            {/* Grid Pattern Overlay */}
+            <div className="absolute inset-0 grid-pattern opacity-30 pointer-events-none" />
 
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
@@ -250,9 +246,9 @@ export function TrendingSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <div className="flex items-center gap-2 mb-3">
-                            <TrendingUp className="w-5 h-5 text-cyan-400" />
-                            <span className="text-sm font-medium text-cyan-400">
+                        <div className="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 backdrop-blur-sm">
+                            <TrendingUp className="w-4 h-4 text-cyan-400" />
+                            <span className="text-xs font-bold tracking-wide uppercase text-cyan-400">
                                 Trending
                             </span>
                         </div>

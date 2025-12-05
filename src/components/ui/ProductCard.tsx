@@ -37,18 +37,17 @@ export function ProductCard({ product, locale = 'pt-BR' }: ProductCardProps) {
     return (
         <motion.div
             className={cn(
-                'group relative rounded-2xl overflow-hidden',
-                'bg-white/[0.02] border border-white/[0.08]',
-                'transition-all duration-500'
+                'group relative rounded-2xl overflow-hidden glass',
+                'transition-all duration-500 hover:-translate-y-2'
             )}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
             whileHover={{
-                borderColor: 'rgba(0, 240, 255, 0.3)',
-                boxShadow: '0 0 40px rgba(0, 240, 255, 0.15), 0 0 80px rgba(112, 0, 255, 0.1)',
+                boxShadow: '0 0 30px rgba(0, 240, 255, 0.2), 0 0 60px rgba(112, 0, 255, 0.1)',
+                borderColor: 'rgba(255, 255, 255, 0.2)'
             }}
         >
             {/* Media Container */}

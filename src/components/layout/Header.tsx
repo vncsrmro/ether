@@ -47,13 +47,13 @@ export function Header() {
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="relative w-10 h-10 rounded-xl overflow-hidden">
+                        <div className="relative w-10 h-10 rounded-xl overflow-hidden holo-hover">
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 via-violet-500 to-silver opacity-80 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute inset-[2px] bg-black rounded-lg flex items-center justify-center">
                                 <span className="text-lg font-bold holographic-text">E</span>
                             </div>
                         </div>
-                        <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+                        <span className="text-xl font-bold tracking-tight text-white hidden sm:block group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-500 group-hover:to-violet-500 transition-all duration-300">
                             ETHER
                         </span>
                     </Link>

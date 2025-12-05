@@ -116,9 +116,19 @@ export function HeroSection() {
                     transition={{ delay: 0.3 }}
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
                 >
-                    <span className="text-white">{t('hero.title')}</span>
+                    <span className="text-white relative group cursor-default">
+                        {t('hero.title')}
+                        <span className="absolute inset-0 text-cyan-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-[2px] transition-all duration-75 mix-blend-screen" aria-hidden="true">
+                            {t('hero.title')}
+                        </span>
+                        <span className="absolute inset-0 text-violet-500 opacity-0 group-hover:opacity-100 group-hover:-translate-x-[2px] transition-all duration-75 mix-blend-screen" aria-hidden="true">
+                            {t('hero.title')}
+                        </span>
+                    </span>
                     <br />
-                    <span className="holographic-text">{t('hero.titleHighlight')}</span>
+                    <span className="holographic-text relative inline-block animate-pulse-glow">
+                        {t('hero.titleHighlight')}
+                    </span>
                 </motion.h1>
 
                 {/* Subtitle */}
