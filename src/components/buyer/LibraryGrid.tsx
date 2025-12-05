@@ -69,7 +69,16 @@ export function LibraryItem({ product, index }: LibraryItemProps) {
                     >
                         Ver Detalhes
                     </Button>
-                    <Button size="sm" className="w-full">
+                    <Button size="sm" className="w-full" onClick={() => {
+                        const asset = product.assets?.[0]
+                        const url = asset?.url || asset?.preview_url || asset?.s3_key_original || asset?.s3_key_preview
+
+                        if (url) {
+                            window.open(url, '_blank')
+                        } else {
+                            alert('Erro: Link de download indisponível (Mock)')
+                        }
+                    }}>
                         <Download className="w-4 h-4 mr-2" />
                         Baixar
                     </Button>

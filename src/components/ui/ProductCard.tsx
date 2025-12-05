@@ -4,7 +4,7 @@ import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { Product } from '@/types'
-import { useCartStore } from '@/store'
+import { useCartStore, useUIStore } from '@/store'
 import { ShoppingCart, Play, Eye } from 'lucide-react'
 
 interface ProductCardProps {
@@ -17,6 +17,7 @@ export function ProductCard({ product, locale = 'pt-BR' }: ProductCardProps) {
     const [isVideoLoaded, setIsVideoLoaded] = React.useState(false)
     const videoRef = React.useRef<HTMLVideoElement>(null)
     const addItem = useCartStore((state) => state.addItem)
+    const { openModal } = useUIStore()
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat(locale, {
@@ -142,6 +143,7 @@ export function ProductCard({ product, locale = 'pt-BR' }: ProductCardProps) {
                             className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            onClick={() => openModal('VIDEO_PREVIEW', product)}
                         >
                             <Eye className="w-4 h-4 text-white/70" />
                         </motion.button>

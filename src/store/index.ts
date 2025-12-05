@@ -116,3 +116,44 @@ export const useAuthUIStore = create<AuthUIStore>()(
         }
     )
 )
+// Wishlist Store
+interface WishlistStore {
+    items: Product[]
+    addItem: (product: Product) => void
+    removeItem: (productId: string) => void
+    isInWishlist: (productId: string) => boolean
+    toggleItem: (product: Product) => void
+}
+
+export const useWishlistStore = create<WishlistStore>()(
+    persist(
+        (set, get) => ({
+            items: [],
+            addItem: (product) => {
+                set((state) => {
+                    if (state.items.some((i) => i.id === product.id)) return state
+                    return { items: [...state.items, product] }
+                })
+            },
+            removeItem: (productId) => {
+                set((state) => ({
+                    items: state.items.filter((i) => i.id !== productId),
+                }))
+            },
+            isInWishlist: (productId) => {
+                return get().items.some((i) => i.id === productId)
+            },
+            toggleItem: (product) => {
+                const isIn = get().items.some((i) => i.id === product.id)
+                if (isIn) {
+                    get().removeItem(product.id)
+                } else {
+                    get().addItem(product)
+                }
+            }
+        }),
+        {
+            name: 'ether-wishlist',
+        }
+    )
+)

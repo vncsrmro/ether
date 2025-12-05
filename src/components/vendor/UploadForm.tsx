@@ -75,6 +75,18 @@ export function UploadForm() {
         setTags(tags.filter(t => t !== tagToRemove))
     }
 
+    const handlePublish = () => {
+        // Mock API Call
+        alert('Produto publicado com sucesso! (Mock)')
+        // Reset form or redirect
+        setTitle('')
+        setPrice('')
+        setDescription('')
+        setTags([])
+        setFiles([])
+        setStep(1)
+    }
+
     return (
         <div className="max-w-3xl mx-auto rounded-3xl glass p-8">
             {/* Stepper */}
@@ -215,7 +227,7 @@ export function UploadForm() {
                         <Button variant="ghost" onClick={() => setStep(1)} className="text-white/60">
                             Voltar
                         </Button>
-                        <Button className="flex-1 bg-gradient-to-r from-cyan-500 to-violet-500">
+                        <Button className="flex-1 bg-gradient-to-r from-cyan-500 to-violet-500" onClick={handlePublish}>
                             Publicar Produto
                         </Button>
                     </div>

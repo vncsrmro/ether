@@ -60,7 +60,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="mt-8 flex justify-end">
-                        <Button>
+                        <Button onClick={() => alert('Configurações salvas com sucesso! (Mock)')}>
                             <Save className="w-4 h-4 mr-2" />
                             Salvar Alterações
                         </Button>

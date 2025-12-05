@@ -4,7 +4,7 @@ import React from 'react'
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { Play, Download, ShoppingCart, Heart, Share2 } from 'lucide-react'
-import { useCartStore } from '@/store'
+import { useCartStore, useWishlistStore } from '@/store'
 
 interface VideoPreviewModalProps {
     isOpen: boolean
@@ -14,6 +14,7 @@ interface VideoPreviewModalProps {
 
 export function VideoPreviewModal({ isOpen, onClose, data }: VideoPreviewModalProps) {
     const { addItem } = useCartStore()
+    const { toggleItem, isInWishlist } = useWishlistStore()
     const videoRef = React.useRef<HTMLVideoElement>(null)
 
     if (!data) return null
@@ -104,9 +105,13 @@ export function VideoPreviewModal({ isOpen, onClose, data }: VideoPreviewModalPr
                         </Button>
 
                         <div className="grid grid-cols-2 gap-3">
-                            <Button variant="outline" className="w-full">
-                                <Heart className="w-4 h-4 mr-2" />
-                                Salvar
+                            <Button
+                                variant={isInWishlist(data.id) ? 'default' : 'outline'}
+                                className="w-full"
+                                onClick={() => toggleItem(data)}
+                            >
+                                <Heart className={`w-4 h-4 mr-2 ${isInWishlist(data.id) ? 'fill-current' : ''}`} />
+                                {isInWishlist(data.id) ? 'Salvo' : 'Salvar'}
                             </Button>
                             <Button variant="outline" className="w-full">
                                 <Share2 className="w-4 h-4 mr-2" />

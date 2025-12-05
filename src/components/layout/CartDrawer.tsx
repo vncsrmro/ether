@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { useUIStore, useCartStore } from '@/store'
@@ -134,9 +136,11 @@ export function CartDrawer() {
                                         {formatPrice(getTotal())}
                                     </span>
                                 </div>
-                                <Button variant="default" size="lg" className="w-full" magnetic>
-                                    {t('cart.checkout')}
-                                </Button>
+                                <Link href="/checkout" className="w-full">
+                                    <Button variant="default" size="lg" className="w-full" magnetic onClick={() => setCartOpen(false)}>
+                                        {t('cart.checkout')}
+                                    </Button>
+                                </Link>
                                 <Button
                                     variant="ghost"
                                     size="sm"

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Play, ArrowRight, Sparkles } from 'lucide-react'
 
@@ -148,14 +149,18 @@ export function HeroSection() {
                     transition={{ delay: 0.5 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <Button variant="default" size="xl" magnetic>
-                        <Play className="w-5 h-5" fill="currentColor" />
-                        {t('hero.cta')}
-                    </Button>
-                    <Button variant="outline" size="xl">
-                        {t('hero.ctaSecondary')}
-                        <ArrowRight className="w-5 h-5" />
-                    </Button>
+                    <Link href="/explore">
+                        <Button variant="default" size="xl" magnetic>
+                            <Play className="w-5 h-5" fill="currentColor" />
+                            {t('hero.cta')}
+                        </Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button variant="outline" size="xl">
+                            {t('hero.ctaSecondary')}
+                            <ArrowRight className="w-5 h-5" />
+                        </Button>
+                    </Link>
                 </motion.div>
 
                 {/* Stats */}
