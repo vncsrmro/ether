@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+/* ========================================
+   ETHER - Holographic Dark Design System
+   ======================================== */
+
+:root {
+  /* Core Colors */
+  --background: #050505;
+  --foreground: #ededed;
+
+  /* Holographic Gradient Colors */
+  --cyan: #00F0FF;
+  --violet: #7000FF;
+  --silver: #E0E0E0;
+
+  /* Surface Colors */
+  --surface-primary: rgba(255, 255, 255, 0.03);
+  --surface-secondary: rgba(255, 255, 255, 0.06);
+  --surface-elevated: rgba(255, 255, 255, 0.08);
+
+  /* Border Colors */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.5);
+
+  /* Glow Effects */
+  --glow-cyan: 0 0 40px rgba(0, 240, 255, 0.3);
+  --glow-violet: 0 0 40px rgba(112, 0, 255, 0.3);
+  --glow-holographic: 0 0 60px rgba(0, 240, 255, 0.2), 0 0 120px rgba(112, 0, 255, 0.15);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-cyan: var(--cyan);
+  --color-violet: var(--violet);
+  --color-silver: var(--silver);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-display);
+}
+
+/* ========================================
+   Global Styles
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Selection Styles
+   ======================================== */
+
+::selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: white;
+}
+
+/* ========================================
+   Scrollbar Styles
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--cyan), var(--violet));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--cyan), var(--violet));
+  opacity: 0.8;
+}
+
+/* ========================================
+   Holographic Effects
+   ======================================== */
+
+.holographic-text {
+  background: linear-gradient(135deg, var(--cyan), var(--violet), var(--silver));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: holographic-shift 8s ease infinite;
+}
+
+.holographic-border {
+  position: relative;
+}
+
+.holographic-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--cyan), var(--violet), var(--silver));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.holographic-glow {
+  box-shadow: var(--glow-holographic);
+}
+
+/* ========================================
+   Glassmorphism
+   ======================================== */
+
+.glass {
+  background: var(--surface-primary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+}
+
+.glass-elevated {
+  background: var(--surface-elevated);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-medium);
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes holographic-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.4), 0 0 60px rgba(112, 0, 255, 0.2);
+  }
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Video Hover Effect */
+.video-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.video-container video {
+  transition: transform 0.5s ease;
+}
+
+.video-container:hover video {
+  transform: scale(1.05);
+}
+
+/* Magnetic Button Base */
+.magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-out;
+}
+
+/* Grid Pattern Background */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Noise Texture Overlay */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}

@@ -1,0 +1,98 @@
+{
+    "nav": {
+        "explore": "Explorar",
+        "trending": "Em Alta",
+        "collections": "Coleções",
+        "vendors": "Vendedores",
+        "pricing": "Preços",
+        "about": "Sobre"
+    },
+    "hero": {
+        "title": "Loops de VJ Premium",
+        "titleHighlight": "Para Artistas Visuais",
+        "subtitle": "Descubra milhares de loops de vídeo de alta qualidade, criados pelos melhores motion designers do mundo. Licenciados para uso comercial.",
+        "cta": "Explorar Biblioteca",
+        "ctaSecondary": "Vender Seus Loops",
+        "stats": {
+            "loops": "Loops",
+            "artists": "Artistas",
+            "downloads": "Downloads"
+        }
+    },
+    "trending": {
+        "title": "Em Alta Agora",
+        "subtitle": "Os loops mais populares desta semana",
+        "viewAll": "Ver Todos"
+    },
+    "product": {
+        "addToCart": "Adicionar ao Carrinho",
+        "preview": "Prévia",
+        "resolution": "Resolução",
+        "fps": "FPS",
+        "codec": "Codec",
+        "exclusive": "Exclusivo",
+        "by": "por"
+    },
+    "cart": {
+        "title": "Carrinho",
+        "empty": "Seu carrinho está vazio",
+        "total": "Total",
+        "checkout": "Finalizar Compra",
+        "continue": "Continuar Comprando"
+    },
+    "auth": {
+        "login": "Entrar",
+        "register": "Cadastrar",
+        "logout": "Sair",
+        "email": "E-mail",
+        "password": "Senha",
+        "confirmPassword": "Confirmar Senha",
+        "forgotPassword": "Esqueceu a senha?",
+        "noAccount": "Não tem uma conta?",
+        "hasAccount": "Já tem uma conta?"
+    },
+    "dashboard": {
+        "overview": "Visão Geral",
+        "sales": "Vendas",
+        "uploads": "Uploads",
+        "analytics": "Análises",
+        "payouts": "Pagamentos",
+        "settings": "Configurações"
+    },
+    "admin": {
+        "users": "Usuários",
+        "products": "Produtos",
+        "orders": "Pedidos",
+        "commissions": "Comissões",
+        "reviewQueue": "Fila de Revisão",
+        "approve": "Aprovar",
+        "reject": "Rejeitar"
+    },
+    "checkout": {
+        "preparing": "Preparando seus arquivos...",
+        "downloadReady": "Download Pronto",
+        "downloadNow": "Baixar Agora"
+    },
+    "footer": {
+        "copyright": "Todos os direitos reservados",
+        "terms": "Termos de Uso",
+        "privacy": "Privacidade",
+        "support": "Suporte",
+        "madeWith": "Desenvolvido com 💗 pela"
+    },
+    "common": {
+        "loading": "Carregando...",
+        "error": "Erro",
+        "success": "Sucesso",
+        "cancel": "Cancelar",
+        "save": "Salvar",
+        "delete": "Excluir",
+        "edit": "Editar",
+        "search": "Pesquisar",
+        "filter": "Filtrar",
+        "sort": "Ordenar",
+        "price": "Preço",
+        "date": "Data",
+        "name": "Nome"
+    }
+}
