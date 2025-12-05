@@ -1,3 +1,6 @@
+export { AuroraBackground } from './AuroraBackground'
 export { Button } from './Button'
 export { Input } from './Input'
 export { ProductCard } from './ProductCard'
+export { VendorCard } from './VendorCard'
+export { CollectionCard } from './CollectionCard'
